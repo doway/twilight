@@ -1,0 +1,70 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Twilight.Models.KnowledgeBaseModel>" %>
+<%@ Import Namespace="Twilight.Common.Helper" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+	Browse
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<link href="../../Content/km.css" rel="stylesheet" type="text/css" />	
+<script type="text/javascript">
+    function AddComment() {
+        document.forms[0].action = '<%= Url.Action("AddComment", "KnowledgeBase") %>';
+        document.forms[0].submit();
+    }
+</script>
+<table class="KM-Browse">
+    <tr>
+        <td colspan="3"><h2><%= Model.KnowledgeBase.Title %></h2></td>
+    </tr>
+    <tr>
+<%--        <td rowspan="5" valign="top">
+            <div class="borwse-likehate">
+                <img src="../../Content/images/like.png" alt="like" width="40px" height="40px" /><br />
+                <img src="../../Content/images/hate.jpg" alt="hate" width="40px" height="40px" />
+            </div>
+        </td>--%>
+        <td  colspan="3"><p><%= Model.KnowledgeBase.Description %></p>
+        </td>
+    </tr>
+    <tr>
+        <td  colspan="3"><p><%= Model.KnowledgeBase.Solution %></p>
+        </td>
+    </tr>    
+    <tr>
+        <td>
+        <% foreach (var item in Model.ReferenceLink)
+           { %>
+            <div class="borwse-jira"><img src="../../Content/images/jira.png" alt="jira" /> <a href="<%= Twilight.Common.Constants.MBConfig.JIRA_URL + item.ReferenceValue %>" title="<%= item.ReferenceValue%>" target="_blank"><%= item.ReferenceValue%></a></div>
+       <%} %>
+        </td>
+    </tr>
+               <% foreach (var item in Model.FileAttachements) {%>
+    <tr>
+                 <td><%= Html.Encode(item.FileName) %></td><td><%= Html.Encode((decimal.Parse(item.FileSize.ToString()) /1024).ToString("0.00") + "KB") %></td><td><%= Html.ImageLink("Download", "../../Content/images/Files-icon.png", item.FileName, new { RowGuid = item.RowGuid }, "", new { border =0, width="25px" })%></td>
+    </tr>    
+	            <%} %>	    
+    <tr>
+        <td  colspan="3">
+            <div class="borwse-editlink" ><%= Html.ActionLink("Improve this Solution", "Edit", new { id = Model.KnowledgeBase.KnowledgeBaseID }, null) %></div>
+            <div class="borwse-date">Createby:<%= Model.KnowledgeBase.CreatedBy %> on <%= Model.KnowledgeBase.DateCreated %></div>
+            <% if (Model.KnowledgeBase.UpdatedBy != "")
+               { %>
+            <div class="borwse-date">lastmodifiedby: <%= Model.KnowledgeBase.UpdatedBy%> on <%= Model.KnowledgeBase.DateUpdated%></div>
+            <% } %>
+        </td>
+    </tr>  
+    <tr>
+        <td colspan="3">
+		        <label for="txtComent" >Leave your comments:</label>
+		        <%= Html.TextArea("txtComent", new { rows = "3" , cols="50" })%>
+		        <input type="button" value="Post" onclick="AddComment();" />
+	        <%= Html.Hidden("ID", Model.KnowledgeBase.KnowledgeBaseID) %>
+        </td>
+    </tr>          
+</table>    
+<hr />
+           <% foreach (var item in Model.Comments)
+              { %>
+           <p><%= item.Message%> - <%= item.CreatedBy %>, <%= item.DateCreated %></p>
+           <% } %>
+</asp:Content>

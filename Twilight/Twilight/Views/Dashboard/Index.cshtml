@@ -1,0 +1,132 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<List<Twilight.Models.LogModel>>" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+    Index
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script type="text/javascript">
+
+        //set up auto refresh 
+        var auto_refresh;
+        function AutoFreshOnClick() {
+            if ($('#chkAutoFresh:checked').val() !== undefined) {
+                auto_refresh = setInterval("JsontoUI()", "<%= Twilight.Common.Constants.MBConfig.MONITOR_LIVE_AUTOREFRESH_INTERVAL %>");
+            }
+            else {
+                clearInterval(auto_refresh);
+            }
+        }
+
+        // parse json data to table
+        function JsontoUI() {
+            $.post('/Dashboard/Query', {
+                INTERVAl: $("#INTERVAL").val(),
+                LEVEL: $("#LEVEL").val(),
+                TIMETYPE: $("#TIMETYPE").val()
+            },
+            function(data) {
+                $("#LogBody").empty();
+                for (var key in data) {
+                    $("#LogBody").append("<tr><td><img src='../../images/" + data[key].Level + ".png' alt='" + data[key].Level + "'/></td>" +
+                                    "<td>" + data[key].Level + "</td><td>" + data[key].BUName + "</td><td><a href='/Log/Query?Logger=" + data[key].AppName + "&DBEndDT=" + data[key].DBTime + "&DBStartDT=" + data[key].DBPastTime + "&Level=" + data[key].Level + "&AppName=" + data[key].AppName + "' title='" + data[key].AppName + "'>" + data[key].AppName + "</a></td>" +
+                                    "<td><a href='/Log/Query?Logger=" + data[key].AppName + "&DBEndDT=" + data[key].DBTime + "&DBStartDT=" + data[key].DBPastTime + "&Level=" + data[key].Level + "' title='" + data[key].COUNT + "'>" + data[key].COUNT + "</a></td></tr>");
+                }
+            });
+        }
+    </script>
+
+    <div id="statisticView" class="dashboard">
+        <table width="100%" border="0">
+            <tr>
+                <td>
+                    <% Html.RenderAction("StatisticByLevel", "Statistic", new { devID = 0, useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = 1, buId = 0, buName = "ALL" }); %>
+                    <% foreach (var d in (IList<Twilight.Dao.GetAllBUResult>)ViewData["BULIST"])
+                       { %>
+                    <% Html.RenderAction("StatisticByLevel", "Statistic", new { devID = d.BUID, useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = 1, buId = d.BUID, buName = d.BUName }); %>
+                    <% } %>
+                </td>
+                <td>
+                <% Html.RenderAction("PieByBU", "Statistic", new { devID = 999, useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = 1, level = string.Empty, buName = "ALL" }); %>
+                <% Html.RenderAction("PieByLevel", "Statistic", new { devID = 998, useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = 1, buId = 0, buName = "ALL" }); %>
+                <% Html.RenderAction("PieByApp", "Statistic", new { devID = 997, useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = 1, buId = 0, buName = "ALL" }); %>
+                </td>
+            </tr>
+        </table>
+    </div>
+        <fieldset>
+            <table class="dashboard-table">
+                <tr>
+                    <th rowspan="3">
+                        Filter:
+                    </th>
+                    <td>
+                        <%= Html.DropDownList("LEVEL", ViewData["LEVEL_List"] as SelectList) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <%= Html.DropDownList("INTERVAL", ViewData["Interval_List"] as SelectList)%>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <%= Html.DropDownList("TIMETYPE", ViewData["Time_List"] as SelectList)%>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="dashboard-search-div">
+                            <input type="submit" value="Refresh" />
+                            Auto<input type="checkbox" id="chkAutoFresh" name="chkAutoFresh" onclick="AutoFreshOnClick()" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" id="logTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Severity
+                        </th>
+                        <th>
+                            Level
+                        </th>
+                        <th>
+                            BU
+                        </th>
+                        <th>
+                            AppName
+                        </th>
+                        <th>
+                            Count
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="LogBody">
+                    <% foreach (var item in Model)
+                       { %>
+                    <tr>
+                        <td>
+                            <img src='../../images/<%= Html.Encode(item.Level)%>.png' alt="<%= Html.Encode(item.Level) %>" />
+                        </td>
+                        <td>
+                            <%= Html.Encode(item.Level) %>
+                        </td>
+                        <td><%= Html.Encode(item.BUName) %></td>
+                        <td>
+                            <a href="/Log/Query?BUID=<%=Html.Encode(item.BUID) %>&AppName=<%= Html.Encode(item.AppName) %>&DBEndDT=<%= Html.Encode(item.DBTime) %>&DBStartDT=<%= Html.Encode(item.DBPastTime) %>&Level=<%= Html.Encode(item.Level)%>"
+                                title="<%= Html.Encode(item.AppName) %>">
+                                <%= Html.Encode(item.AppName) %></a>
+                        </td>
+                        <td>
+                            <a href="/Log/Query?BUID=<%=Html.Encode(item.BUID) %>&AppName=<%= Html.Encode(item.AppName) %>&DBEndDT=<%= Html.Encode(item.DBTime)%>&DBStartDT=<%= Html.Encode(item.DBPastTime) %>&Level=<%= Html.Encode(item.Level)%>"
+                                title="<%= Html.Encode(item.COUNT) %>">
+                                <%= Html.Encode(item.COUNT) %></a>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+         </fieldset>
+</asp:Content>

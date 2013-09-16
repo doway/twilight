@@ -1,0 +1,143 @@
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IPagedList<Twilight.Dao.log_QueryLogResult>>" %>
+<%@ Import Namespace=" Twilight.Common.Helper" %>
+
+<table width="100%" id="logTable" class="logTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>APTIme</th>
+            <th>DBTime</th>
+            <th>Level</th>
+            <th>Message</th>
+            <th>Logger</th>
+            <th>BU</th>
+            <th>ErrorCode</th>
+            <th></th>
+        </tr>         
+    </thead>
+    <tbody id="LogBody">        
+    <% 
+        if (Model == null)
+        {
+            Response.Write("<tr><td colspan=\"6\" align=\"center\">No Data.</td></tr>");
+        }
+        else
+        {
+            foreach (var item in Model)
+            { %>
+        <tr>      
+            <td>
+                <%= Html.Encode(item.ID)%>
+            </td>
+            <td>
+                <%= Html.Encode(item.AppLoggingDT)%>
+            </td>      
+            <td>
+                <%= Html.Encode(item.DBLoggingDT)%>
+            </td>                      
+            <td>
+                <%= Html.Encode(item.Level)%>
+            </td>            
+            <td>
+                <a onclick="javascript:window.open('LogDetail/<% =item.ID %>', '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0');"><%= item.Message%></a>
+            </td>            
+            <td><%= Html.Encode(item.Logger)%></td>
+            <td><%= Html.Encode(item.BUName)%></td>
+            <td>
+                <a href="/KnowLedgeBase/Search?Keyword=<%= Html.Encode(item.ErrorCode) %>"><%= Html.Encode(item.ErrorCode)%></a>
+            </td>
+            <td><a onclick="javascript:window.open('LogDetail/<% =item.ID %>', '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0');">OPEN</a>
+            </td>
+        </tr>
+    <% }
+   }      
+ %>
+    </tbody>
+</table>
+  <div id="pager" class="pager">
+  <% 
+    if (Model != null) 
+    { 
+      int currentPage = ViewData["CurrentPage"] == null ? 0 : int.Parse(ViewData["CurrentPage"].ToString());
+      Response.Write(Html.MvcSimplePostPager(currentPage, Model.PageSize, Model.TotalItemCount, true));
+    }
+  %>
+  </div>
+<div id="popup" class="buglist_popup" ></div>
+<script type="text/javascript">
+    function OpenDetail(id) {
+        window.open('LogDetail/' + id, '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0', false);
+        return false;
+    }
+    var timerId;
+    $('#logTable tr td').mouseover(function(e) {
+        var popup = document.getElementById("popup");
+        // get rowindex and id
+        var rowindex = this.parentNode.rowIndex;
+        var offset = $(this).offset();
+        var _id = $('#logTable tr:eq(' + rowindex + ') td:eq(' + 0 + ')').html();
+        viewport_height = $(document).height();  //doesn't work
+        mytop = offset.top + $(this).height() - 320;
+        scroll_offset_y = $(document).scrollTop()
+        y_in_viewport = mytop - scroll_offset_y
+
+        timerId = setTimeout(function() {
+            $.ajax({
+                url: '<%= Url.Action("GetLogDetail", "Log") %>',
+                data: {
+                    ID: _id
+                },
+                type: 'post',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    var _html = "<table class='log-popup-table'><tr><th>ID</th><td colspan='3'>" + data[0].ID + "</td></tr>" +
+                                "<tr><th>Exception</th><td colspan='3'><pre>" + data[0].Exception + "</pre></td></tr>" +
+                                "<tr><th>Thread</th><td>" + data[0].Thread + "</td><th>Application</th><td>" + data[0].AppName + "</td></tr>" +
+                                "<tr><th>Src</th><td colspan='3'>" + data[0].Src + "</td></tr>" +
+                                "<tr><th>ExKey1</th><td>" + data[0].ExKey1 + "</td><th>ExKey2</th><td>" + data[0].ExKey2 + "</td></tr>" +
+                                "<tr><th>ExKey3</th><td>" + data[0].ExKey3 + "</td><th>ExKey4</th><td>" + data[0].ExKey4 + "</td></tr>" +
+                                "<tr><th>ExKey5</th><td>" + data[0].ExKey5 + "</td><th>ExKey6</th><td>" + data[0].ExKey6 + "</td></tr>" +
+                                "<tr><th>ExKey7</th><td>" + data[0].ExKey7 + "</td><th>ExKey8</th><td>" + data[0].ExKey8 + "</td></tr>" +
+                                "<tr><th>ExKey9</th><td>" + data[0].ExKey9 + "</td><th>ExKey10</th><td>" + data[0].ExKey10 + "</td></tr>" +
+                    "</table>";
+                    $('#popup').html(_html);
+                }
+            });
+
+            if (y_in_viewport < viewport_height) // are we even visible?
+            {
+                // Display the popup, but truncate it if it overflows 
+                // to prevent scrollbar, which shifts element under mouse
+                // which leads to flicker...
+
+                popup.style.height = ""
+                popup.style.display = "block";
+
+                if (y_in_viewport + popup.offsetHeight > viewport_height) {
+                    overflow = (y_in_viewport + popup.offsetHeight) - viewport_height
+
+                    newh = popup.offsetHeight - overflow
+                    newh -= 10 // not sure why i need the margin..
+
+                    if (newh > 0) {
+                        popup.style.height = newh;
+                    }
+                    else {
+                        popup.style.display = "none";
+                    }
+                }
+                popup.style.left = offset.left + 40 + "px";
+                popup.style.top = mytop + "px";
+            }
+        }, 650);
+    });
+
+    $('#logTable tr td').mouseout(function(e) {
+        clearTimeout(timerId);
+        var popup = document.getElementById("popup");
+        popup.innerHTML = "";
+        popup.style.display = "none";
+    });
+</script>

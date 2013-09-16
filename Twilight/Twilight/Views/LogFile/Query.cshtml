@@ -1,0 +1,86 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IPagedList<ServerBUMappingModel>>" %>
+
+<%@ Import Namespace=" Twilight.Common.Helper" %>
+<%@ Import Namespace="Twilight.Models" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+    Browse physical lof file
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            PageContent_Init();
+            if ($("#keyword").val() != "") {
+                search();
+            }
+        });
+        function PageContent_Init() {
+            $('#logTable tr:odd').css('background-color', '#F5FBFC');
+            PostPager();
+        }
+        function PostPager() {
+            $('.Pager').each(function(i, item) {
+                $(item).attr('href', '#');
+            });
+            $('.PostPager.first-page').click(function() { GoToPage(1); });
+            $('.PostPager.previous-page,.PostPager.next-page,.PostPager.last-page,.number-page').click(function() {
+                GoToPage($(this).attr('value'));
+            });
+        }
+        function GoToPage(page) {
+            $.ajax({
+                url: '<%= Url.Action("ServerBUMappingPageContent", "LogFile") %>',
+                data: { page: page, keyword: $("#keyword").val()
+                },
+                type: 'post',
+                async: false,
+                cache: false,
+                dataType: 'html',
+                success: function(data) {
+                    $('#PageContent').html(data);
+                    PageContent_Init();
+                }
+            });
+        }
+        function search() {
+            $.ajax({
+                url: '<%= Url.Action("ServerBUMappingPageContent", "ServerBUMapping") %>',
+                data: { keyword: $("#keyword").val()
+                },
+                type: 'post',
+                async: false,
+                cache: false,
+                dataType: 'html',
+                success: function(data) {
+                    $('#PageContent').html(data);
+                    PageContent_Init();
+                }
+            });
+        }
+        function Delete(ID) {
+            if (confirm('Do you realy want to delete?')) {
+                $.ajax({
+                    url: '<%= Url.Action("Delete", "ServerBUMapping") %>',
+                    data: { ID: ID
+                    },
+                    type: 'post',
+                    async: false,
+                    cache: false,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success)
+                            search();
+                        else
+                            alert('delete fail:' + data.errmsg);
+                    }
+                });
+            }
+        }               
+    </script>
+
+    <h2>
+        SERVER LIST</h2>
+    <div id="PageContent">
+        <% Html.RenderAction("ServerBUMappingPageContent", "LogFile");  %>
+    </div>
+</asp:Content>

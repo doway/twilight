@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AppLog" Class="TwilightDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=192.168.1.66;Initial Catalog=AppLog;Persist Security Info=True;User ID=sa" SettingsObjectName="Twilight.Dao.Properties.Settings" SettingsPropertyName="AppLogConnectionString1" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.Account_CheckFunctionPermission" Method="Account_CheckFunctionPermission">
+    <Parameter Name="LoginID" Parameter="loginID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="FunctionID" Parameter="functionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AccessLevel" Parameter="accessLevel" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.state_LogTrendByLevel" Method="state_LogTrendByLevel">
+    <Parameter Name="UseDBTime" Parameter="useDBTime" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="PastHrs" Parameter="pastHrs" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="BaseDateTime" Parameter="baseDateTime" Type="System.DateTime" DbType="DateTime" Direction="InOut" />
+    <ElementType Name="state_LogTrendByLevelResult">
+      <Column Name="OffsetMins" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="COUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Account_CheckLoginIDExist" Method="Account_CheckLoginIDExist">
+    <Parameter Name="LoginID" Parameter="loginID" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_Delete" Method="Account_Delete">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_GetALLUser" Method="Account_GetALLUser">
+    <ElementType Name="Account_GetALLUserResult">
+      <Column Name="UserID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="LoginID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="PositionName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Remark" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Picture" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" />
+      <Column Name="PictureType" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateUpdated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Account_Insert" Method="Account_Insert">
+    <Parameter Name="LoginID" Parameter="loginID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="SessionID" Parameter="sessionID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="LoginAttempt" Parameter="loginAttempt" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="PositionID" Parameter="positionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="EMail" Parameter="eMail" Type="System.String" DbType="VarChar(128)" />
+    <Parameter Name="Remark" Parameter="remark" Type="System.String" DbType="VarChar(256)" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserType" Parameter="userType" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Picture" Parameter="picture" Type="System.Data.Linq.Binary" DbType="Image" />
+    <Parameter Name="PictureType" Parameter="pictureType" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="CreatedBy" Parameter="createdBy" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_PasswordInsert" Method="Account_PasswordInsert">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="SessionID" Parameter="sessionID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="LoginAttempt" Parameter="loginAttempt" Type="System.Byte" DbType="TinyInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_PasswordUpdate" Method="Account_PasswordUpdate">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="SessionID" Parameter="sessionID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="LoginAttempt" Parameter="loginAttempt" Type="System.Byte" DbType="TinyInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_Search" Method="Account_Search">
+    <Parameter Name="Keyword" Parameter="keyword" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="pageNum" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pageSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VirtualRowsCount" Parameter="virtualRowsCount" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="Account_SearchResult">
+      <Column Name="ROW_NO" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="UserID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="LoginID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="PositionName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="PositionID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="EMail" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Remark" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Picture" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" />
+      <Column Name="PictureType" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateUpdated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Account_SearchByUserID" Method="Account_SearchByUserID">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <ElementType Name="Account_SearchByUserIDResult">
+      <Column Name="UserID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="LoginID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PositionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Remark" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Picture" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" />
+      <Column Name="PictureType" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateUpdated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Account_Update" Method="Account_Update">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="SessionID" Parameter="sessionID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="LoginAttempt" Parameter="loginAttempt" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="PositionID" Parameter="positionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="EMail" Parameter="eMail" Type="System.String" DbType="VarChar(128)" />
+    <Parameter Name="Remark" Parameter="remark" Type="System.String" DbType="VarChar(256)" />
+    <Parameter Name="Status" Parameter="status" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="UserType" Parameter="userType" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="Picture" Parameter="picture" Type="System.Data.Linq.Binary" DbType="Image" />
+    <Parameter Name="PictureType" Parameter="pictureType" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="UpdatedBy" Parameter="updatedBy" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_UserPositionInsert" Method="Account_UserPositionInsert">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="PositionID" Parameter="positionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CreatedBy" Parameter="createdBy" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_UserPositionUpdate" Method="Account_UserPositionUpdate">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="PositionID" Parameter="positionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UpdatedBy" Parameter="updatedBy" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Account_ValidateUser" Method="Account_ValidateUser">
+    <Parameter Name="LoginID" Parameter="loginID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" Direction="InOut" />
+    <Parameter Name="PositionID" Parameter="positionID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.BU_Delete" Method="BU_Delete">
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.BU_Insert" Method="BU_Insert">
+    <Parameter Name="BUName" Parameter="bUName" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.BU_Update" Method="BU_Update">
+    <Parameter Name="BUName" Parameter="bUName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetAllBU" Method="GetAllBU">
+    <ElementType Name="GetAllBUResult">
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetAllPosition" Method="GetAllPosition">
+    <ElementType Name="GetAllPositionResult">
+      <Column Name="PositionID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="PositionName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="AccessType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Status" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DateUpdated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedBy" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetBUByID" Method="GetBUByID">
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <ElementType Name="GetBUByIDResult">
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetServerBUMapping" Method="GetServerBUMapping">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetServerBUMappingResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ServerIP" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ServerName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.KnowledgeBase_DeleteFileAttachment" Method="KnowledgeBase_DeleteFileAttachment">
+    <Parameter Name="RowGuid" Parameter="rowGuid" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_DeleteKeywordMapping" Method="KnowledgeBase_DeleteKeywordMapping">
+    <Parameter Name="KnowledgeBaseID" Parameter="knowledgeBaseID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_DeleteReferenceLink" Method="KnowledgeBase_DeleteReferenceLink">
+    <Parameter Name="KnowledgeBaseID" Parameter="knowledgeBaseID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_DeleteUnuseFileAttachment" Method="KnowledgeBase_DeleteUnuseFileAttachment">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_GetFileAttachment" Method="KnowledgeBase_GetFileAttachment">
+    <Parameter Name="RowGuid" Parameter="rowGuid" Type="System.Guid" DbType="UniqueIdentifier" />
+    <ElementType Name="KnowledgeBase_GetFileAttachmentResult">
+      <Column Name="RowGuid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="FileID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FileName" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="FileSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="KnowledgebaseId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Attachment" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="FileType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Createdby" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.KnowledgeBase_GetKMInfo" Method="KnowledgeBase_GetKMInfo">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int32" DbType="Int" />
+    <ElementType Name="KnowledgeBase_GetKMInfoResult">
+      <Column Name="KnowledgebaseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Solution" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Recommend" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedBy" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DateUpdated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.KnowledgeBase_Insert" Method="KnowledgeBase_Insert">
+    <Parameter Name="Title" Parameter="title" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="Solution" Parameter="solution" Type="System.String" DbType="Text" />
+    <Parameter Name="CreatedBy" Parameter="createdBy" Type="System.Int32" DbType="Int" />
+    <Parameter Name="KnowledgeBaseID" Parameter="knowledgeBaseID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_InsertComment" Method="KnowledgeBase_InsertComment">
+    <Parameter Name="KnowledgebaseId" Parameter="knowledgebaseId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Message" Parameter="message" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="CreatedBy" Parameter="createdBy" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_InsertFileAttachment" Method="KnowledgeBase_InsertFileAttachment">
+    <Parameter Name="FileName" Parameter="fileName" Type="System.String" DbType="VarChar(250)" />
+    <Parameter Name="FileSize" Parameter="fileSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="KnowledgebaseId" Parameter="knowledgebaseId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Attachment" Parameter="attachment" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Parameter Name="FileType" Parameter="fileType" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Createdby" Parameter="createdby" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Status" Parameter="status" Type="System.Char" DbType="Char(1)" />
+    <Parameter Name="RowGuid" Parameter="rowGuid" Type="System.Guid" DbType="UniqueIdentifier" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_InsertKeywordMapping" Method="KnowledgeBase_InsertKeywordMapping">
+    <Parameter Name="KnowledgeBaseID" Parameter="knowledgeBaseID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Keyword" Parameter="keyword" Type="System.String" DbType="VarChar(1000)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_InsertReferenceLink" Method="KnowledgeBase_InsertReferenceLink">
+    <Parameter Name="KnowledgeBaseID" Parameter="knowledgeBaseID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ReferenceValue" Parameter="referenceValue" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ReferenceType" Parameter="referenceType" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_Search" Method="KnowledgeBase_Search">
+    <Parameter Name="Keyword" Parameter="keyword" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="pageNum" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pageSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VirtualRowsCount" Parameter="virtualRowsCount" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="KnowledgeBase_SearchResult">
+      <Column Name="ROW_NO" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="KnowledgebaseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Solution" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedBy" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedBy" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="DateUpdated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Recommend" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comments" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.KnowledgeBase_Update" Method="KnowledgeBase_Update">
+    <Parameter Name="Title" Parameter="title" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="Solution" Parameter="solution" Type="System.String" DbType="Text" />
+    <Parameter Name="UpdatedBy" Parameter="updatedBy" Type="System.Int32" DbType="Int" />
+    <Parameter Name="KnowledgeBaseID" Parameter="knowledgeBaseID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.KnowledgeBase_UpdateFileAttachment" Method="KnowledgeBase_UpdateFileAttachment">
+    <Parameter Name="KnowledgebaseId" Parameter="knowledgebaseId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RowGuid" Parameter="rowGuid" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.log_DropOldLog" Method="log_DropOldLog">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.log_getALLBU" Method="log_getALLBU">
+    <ElementType Name="log_getALLBUResult">
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.log_InsertNewMessage" Method="log_InsertNewMessage">
+    <Parameter Name="AppDate" Parameter="appDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Thread" Parameter="thread" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="Level" Parameter="level" Type="System.String" DbType="Char(5)" />
+    <Parameter Name="Logger" Parameter="logger" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Message" Parameter="message" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="AppName" Parameter="appName" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey1" Parameter="exKey1" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey2" Parameter="exKey2" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey3" Parameter="exKey3" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey4" Parameter="exKey4" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey5" Parameter="exKey5" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey6" Parameter="exKey6" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey7" Parameter="exKey7" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey8" Parameter="exKey8" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey9" Parameter="exKey9" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey10" Parameter="exKey10" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="Exception" Parameter="exception" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="ErrorCode" Parameter="errorCode" Type="System.String" DbType="Char(10)" />
+    <Parameter Name="Src" Parameter="src" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.log_LiveMonitoring" Method="log_LiveMonitoring">
+    <Parameter Name="APTime" Parameter="aPTime" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TimeSpanInMins" Parameter="timeSpanInMins" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="Level" Parameter="level" Type="System.String" DbType="Char(5)" />
+    <Parameter Name="TimeType" Parameter="timeType" Type="System.Int32" DbType="Int" />
+    <ElementType Name="log_LiveMonitoringResult">
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AppName" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="DBTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DBPastTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="COUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.log_QueryLog" Method="log_QueryLog">
+    <Parameter Name="Src" Parameter="src" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="AppBeginDate" Parameter="appBeginDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="AppEndDate" Parameter="appEndDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Thread" Parameter="thread" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="Level" Parameter="level" Type="System.String" DbType="Char(5)" />
+    <Parameter Name="Logger" Parameter="logger" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="AppName" Parameter="appName" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey1" Parameter="exKey1" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey2" Parameter="exKey2" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey3" Parameter="exKey3" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey4" Parameter="exKey4" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey5" Parameter="exKey5" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey6" Parameter="exKey6" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey7" Parameter="exKey7" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey8" Parameter="exKey8" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey9" Parameter="exKey9" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ExKey10" Parameter="exKey10" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="ErrorCode" Parameter="errorCode" Type="System.String" DbType="Char(10)" />
+    <Parameter Name="Message" Parameter="message" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="pageNum" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pageSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VirtualRowsCount" Parameter="virtualRowsCount" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="log_QueryLogResult">
+      <Column Name="ROW_NO" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="AppLoggingDT" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Thread" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Logger" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DBLoggingDT" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="AppName" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey1" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey2" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey3" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey4" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey5" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey6" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey7" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey8" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey9" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey10" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Src" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Exception" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ErrorCode" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.log_QueryLogById" Method="log_QueryLogById">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="log_QueryLogByIdResult">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="AppLoggingDT" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Thread" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Logger" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DBLoggingDT" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BUName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AppName" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey1" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey2" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey3" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey4" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey5" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey6" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey7" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey8" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey9" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ExKey10" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Src" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Exception" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ErrorCode" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ServerBUMapping_Delete" Method="ServerBUMapping_Delete">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ServerBUMapping_Insert" Method="ServerBUMapping_Insert">
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="ServerIP" Parameter="serverIP" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ServerBUMapping_Search" Method="ServerBUMapping_Search">
+    <Parameter Name="Keyword" Parameter="keyword" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="pageNum" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pageSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="VirtualRowsCount" Parameter="virtualRowsCount" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="ServerBUMapping_SearchResult">
+      <Column Name="ROW_NO" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BUID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BUNAME" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ServerIP" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ServerName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ServerBUMapping_Update" Method="ServerBUMapping_Update">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int32" DbType="Int" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="ServerIP" Parameter="serverIP" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int16" DbType="SmallInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.state_LogPieTrendByApp" Method="state_LogPieTrendByApp">
+    <Parameter Name="UseDBTime" Parameter="useDBTime" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="PastHrs" Parameter="pastHrs" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="BaseDateTime" Parameter="baseDateTime" Type="System.DateTime" DbType="DateTime" Direction="InOut" />
+    <ElementType Name="state_LogPieTrendByAppResult">
+      <Column Name="AppName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="COUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.state_LogPieTrendByBU" Method="state_LogPieTrendByBU">
+    <Parameter Name="UseDBTime" Parameter="useDBTime" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="PastHrs" Parameter="pastHrs" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="Level" Parameter="level" Type="System.String" DbType="Char(5)" />
+    <Parameter Name="BaseDateTime" Parameter="baseDateTime" Type="System.DateTime" DbType="DateTime" Direction="InOut" />
+    <ElementType Name="state_LogPieTrendByBUResult">
+      <Column Name="BU" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="COUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.state_LogPieTrendByLevel" Method="state_LogPieTrendByLevel">
+    <Parameter Name="UseDBTime" Parameter="useDBTime" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="PastHrs" Parameter="pastHrs" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="BUID" Parameter="bUID" Type="System.Int16" DbType="SmallInt" />
+    <Parameter Name="BaseDateTime" Parameter="baseDateTime" Type="System.DateTime" DbType="DateTime" Direction="InOut" />
+    <ElementType Name="state_LogPieTrendByLevelResult">
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="COUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.state_LogTrendByBU" Method="state_LogTrendByBU">
+    <Parameter Name="UseDBTime" Parameter="useDBTime" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="PastHrs" Parameter="pastHrs" Type="System.Byte" DbType="TinyInt" />
+    <Parameter Name="Level" Parameter="level" Type="System.String" DbType="Char(5)" />
+    <Parameter Name="BaseDateTime" Parameter="baseDateTime" Type="System.DateTime" DbType="DateTime" Direction="InOut" />
+    <ElementType Name="state_LogTrendByBUResult">
+      <Column Name="OffsetMins" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BU" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="COUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

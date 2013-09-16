@@ -1,0 +1,91 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Twilight.Models.KnowledgeBase>" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+	Add
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<link href="../../Content/km.css" rel="stylesheet" type="text/css" />	
+<link href="../../Content/jHtmlArea.css" rel="stylesheet" type="text/css" />
+<link href="../../Content/fileuploader.css" rel="stylesheet" type="text/css" />	
+<script src="../../Scripts/jHtmlArea-0.7.0.js" type="text/javascript"></script>
+<script src="../../Scripts/MicrosoftAjax.js" type="text/javascript"></script>
+<script src="../../Scripts/MicrosoftMvcValidation.js" type="text/javascript"></script>
+<script src="../../Scripts/fileuploader.js" type="text/javascript"></script>
+<% Html.EnableClientValidation(); %>
+<script type="text/javascript">
+<!--
+    $(document).ready(function() {
+        createUploader();
+    });
+
+    function createUploader() {
+        var uploader = new qq.FileUploader(
+        {
+            element: $('#file-uploader')[0],
+            action: '<%= Url.Action("Upload", "KnowledgeBase") %>',
+            sizeLimit: 5 * 1024 * 1024,
+            minSizeLimit: 0,
+            allowedExtensions: [],
+            onComplete: function(id, fileName, responseJSON) {
+            if (responseJSON.success) {
+                var guids = $('#RowGuids');
+                if (guids.val() == "")
+                    guids.val(responseJSON.guid);
+                else
+                    guids.val(guids.val() + ',' + responseJSON.guid);                    
+                }
+            }
+        });
+    }
+    
+    function AddSolution() {
+        document.forms[0].action = '<%= Url.Action("Add", "KnowledgeBase") %>';
+        document.forms[0].submit();
+    }
+    
+    $(function() {
+        $("#Solution").htmlarea();
+    });
+-->
+</script>
+<% using( Html.BeginForm()) { %>
+	<fieldset>
+		<%= Html.LabelFor(Model=> Model.Title) %>
+		<%= Html.TextBoxFor(Model => Model.Title, new { @class = "form-text" })%>
+		<%= Html.ValidationMessageFor(Model => Model.Title) %>
+	</fieldset>
+	<fieldset>
+		<%= Html.LabelFor(Model => Model.Description)%>
+		<%= Html.TextBoxFor(Model => Model.Description, new { @class = "form-text" })%>
+		<%= Html.ValidationMessageFor(Model => Model.Description)%>	
+	</fieldset>	
+	<fieldset>
+        <%= Html.LabelFor(Model => Model.Solution)%>
+		<%= Html.TextArea("Solution")%>
+        <%= Html.ValidationMessageFor(Model => Model.Solution)%>			
+	</fieldset>			
+	<fieldset>
+		<%= Html.LabelFor(Model => Model.Keyword)%>
+		<%= Html.TextBoxFor(Model => Model.Keyword, new { @class = "form-text" })%>
+		<%= Html.ValidationMessageFor(Model => Model.Keyword)%>	
+        <p class="form-help">Please use ',' to spilt keyword ex:aaa,bbb</p>		
+	</fieldset>	
+	<fieldset>
+		<%= Html.LabelFor(Model => Model.JIRA)%>
+		<%= Html.TextBoxFor(Model => Model.JIRA, new { @class = "form-text" })%>
+		<%= Html.ValidationMessageFor(Model => Model.JIRA)%>	
+        <p class="form-help">Please use ',' to spilt keyword ex:CM-001,GAS-002</p>				
+	</fieldset>	
+	<div id="file-uploader">
+        <noscript>
+            <p>
+                Please enable JavaScript to use file uploader.</p>
+            <!-- or put a simple form for upload here -->
+    </noscript> 
+    </div>	
+    <fieldset class="form-actions">
+        <input type="submit" value="Submit"  />         
+        <%= Html.HiddenFor(Model => Model.RowGuids)%>              
+    </fieldset>	
+   <% } %>
+</asp:Content>

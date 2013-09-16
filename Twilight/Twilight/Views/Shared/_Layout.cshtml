@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+    
+    <!--[if lte IE 8]><script src="../../Scripts/Flot/excanvas.min.js" type="text/javascript"></script><![endif]-->
+    <script src="../../Scripts/Flot/jquery.flot.js" type="text/javascript"></script>
+    <script src="../../Scripts/Flot/jquery.flot.stack.js" type="text/javascript"></script>
+    <script src="../../Scripts/Flot/jquery.flot.pie.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form2" runat="server">
+    <div class="page">
+        <div id="Div1">
+            <div>
+                 <table>
+                    <tr>
+                        <td >
+                            <img src="../../images/logo.png" width="113px" height="103px" alt="Log System"/>
+                        </td>
+                        <td align="left"><img src="../../images/title.png" />
+                        </td>
+                    </tr>
+                </table>  
+            </div> 
+            <div id="Div2">
+                <ul id="Ul1">              
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>   
+                    @if (Twilight.Common.Helper.SessionManager.isLogin) {
+                    <li>@Html.ActionLink("ChangePassword", "ChangePassword", "Account")</li>
+                    }
+                    <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                    <li>@Html.RenderPartial("LogOnUserControl")</li>
+                </ul>
+            </div>
+        </div>
+        <div id="Div3">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:15%" valign="top">
+                       <asp:TreeView ID="TreeView1" runat="server" ImageSet="Msdn" NodeIndent="10">
+                            <ParentNodeStyle Font-Bold="False" />
+                            <HoverNodeStyle BackColor="#CCCCCC" BorderColor="#888888" BorderStyle="Solid" 
+                                Font-Underline="True" />
+                            <SelectedNodeStyle BackColor="White" BorderColor="#888888" BorderStyle="Solid" 
+                                BorderWidth="1px" Font-Underline="False" HorizontalPadding="3px" 
+                                VerticalPadding="1px" />
+                            <Nodes>
+                                <asp:TreeNode Text="Home" Value="Home" NavigateUrl="/" ShowCheckBox="False"></asp:TreeNode>
+                                <asp:TreeNode Text="Dashboard" Value="Dashboard"  
+                                    NavigateUrl="/Dashboard/Index" ShowCheckBox="False"></asp:TreeNode>
+                                <asp:TreeNode Text="Log Analysis" Value="Log Analysis" SelectAction="None">
+                                    <asp:TreeNode Text="Log enquiry" Value="Log enquiry" NavigateUrl="/Log/Query" 
+                                        ShowCheckBox="False"></asp:TreeNode>
+                                    <asp:TreeNode NavigateUrl="/LogFile/Query" ShowCheckBox="False" 
+                                        Text="Get Log File" 
+                                        ToolTip="Download physical log file from application server" 
+                                        Value="Get Log File"></asp:TreeNode>
+                                </asp:TreeNode>
+                                <asp:TreeNode Text="KnowledgeBase" Value="KnowledgeBase" SelectAction="None">
+                                    <asp:TreeNode Text="Search" Value="Search" ShowCheckBox="False" 
+                                        NavigateUrl="/KnowledgeBase/Search">
+                                    </asp:TreeNode>
+                                    <asp:TreeNode ShowCheckBox="False" Text="Add" Value="Add" 
+                                        NavigateUrl="/KnowledgeBase/Add">
+                                    </asp:TreeNode>
+                                </asp:TreeNode>
+                            </Nodes>
+                            <NodeStyle Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" 
+                                HorizontalPadding="5px" NodeSpacing="1px" VerticalPadding="2px" />
+                        </asp:TreeView>                    
+                    </td>
+                    <td style="width:85%; vertical-align:top">
+                        @RenderBody()
+                    </td>
+                </tr>
+            </table>
+            <div id="Div4">
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

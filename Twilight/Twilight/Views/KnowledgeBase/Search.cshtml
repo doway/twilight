@@ -1,0 +1,97 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+	Search
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var isredirecttoAdd = '<%= ViewData["RereictToAdd"] %>';
+            if (isredirecttoAdd == 'True') {
+                alert('No data found, auto direct to add page');
+                location.href = '<%= Url.Action("Add", "KnowledgeBase", new {Keyword= ViewData["Keyword"]} ) %>';
+            }
+            PageContent_Init();
+            if ($("#Keyword").val() != "") {
+                search();
+            }
+        });
+        function PageContent_Init() {
+            //$('#KMTable tr:odd').css('background-color', '#F5FBFC');
+            PostPager();
+        }
+
+        function search() {
+            if ($("#Keyword").val() == "") {
+                $('#errcontainer').css("display", "block");
+                return;    
+                }
+            $.ajax({
+            url: '<%= Url.Action("SolutionPageContent", "KnowledgeBase") %>',
+                data: { Keyword: $("#Keyword").val()
+                },
+                type: 'post',
+                async: false,
+                cache: false,
+                dataType: 'html',
+                success: function(data) {
+                    $('#PageContent').html(data);
+                    PageContent_Init();
+                }
+            });        
+        }
+        //================== Post方式做換頁 =========================
+        //將Pager上面的連結項目的行為分離出來
+        //使用class方式做行為判別與動作執行
+        function PostPager() {
+            $('.Pager').each(function(i, item) {
+                $(item).attr('href', '#');
+            });
+            $('.PostPager.first-page').click(function() { GoToPage(1); });
+            $('.PostPager.previous-page,.PostPager.next-page,.PostPager.last-page,.number-page').click(function() {
+                GoToPage($(this).attr('value'));
+            });
+        }
+        function GoToPage(page) {
+            $.ajax({
+            url: '<%= Url.Action("LogPageContent", "Log") %>',
+                data: { page: page, StartDateTime: $("#StartDateTime").val(),
+                    EndDateTime: $("#EndDateTime").val(),
+                    LEVEL: $("#LEVEL").val(),
+                    Logger: $("#Logger").val(),
+                    BU: $("#BU").val(),
+                    ErrorCode: $("#ErrorCode").val(),
+                    Message: $("#Message").val()
+                },
+                type: 'post',
+                async: false,
+                cache: false,
+                dataType: 'html',
+                success: function(data) {
+                    $('#PageContent').html(data);
+                    PageContent_Init();
+                }
+            });
+        }
+	</script>
+
+<fieldset>
+    <legend>Solution Search</legend>
+    <table>
+        <tr><td>
+                <%= Html.TextBox("Keyword", ViewData["Keyword"]) %>
+                <div id="errcontainer">
+		           <label class="error">Please enter keyword</label>
+                </div>                    
+            </td>
+            <td>
+                <input id="btnSearch"  type="button" onclick="search()" value="Search" />            
+            </td>
+        </tr>
+    </table>
+</fieldset>
+<div id="PageContent">
+  <% Html.RenderAction("SolutionPageContent", "KnowledgeBase");  %>
+</div>
+</asp:Content>

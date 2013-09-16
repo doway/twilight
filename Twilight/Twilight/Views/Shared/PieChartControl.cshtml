@@ -1,0 +1,64 @@
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Twilight.Models.PieStatisticModel>" %>
+<table border="0">
+    <tr>
+        <td>
+            <div id="placeholder<%= Model.ID %>" style="height: 300px">
+            </div>
+        </td>
+        <td>
+            <div id="choices<%= Model.ID %>">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            The statistic is about the <strong>past <% =ViewData["INTERVAL"] %> hour</strong> by the BU-<strong><% =ViewData["BUNAME"] %></strong>
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    $(function() {
+        var datasets = null;
+        
+        var divWidth = getBrowserWidth() * 0.3 + "px";
+        document.getElementById("placeholder<%= Model.ID %>").style.width = divWidth;
+        
+        function onDataReceived(series) {
+            // we get all the data in one go, if we only got partial
+            // data, we could merge it with what we already got
+            eval(series);
+            plotDiagram();
+        }
+        function plotDiagram() {
+            var data = datasets;
+            if (data.length > 0)
+                $.plot($("#placeholder<%= Model.ID %>"), data, { series:{ pie:{ show:true }}, legend:{ show:false }});
+        }
+        function reloadData() {
+            $.ajax({
+                // usually, we'll just call the same URL, a script
+                // connected to a database, but in this case we only
+                // have static example files so we need to modify the
+                // URL
+            url: '<% switch((int)ViewData["MODE"]) { case 1: %><% =Url.Action("PieDataByLevel", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], buId = (short)ViewData["BUID"] }) %><% break; case 2: %><% =Url.Action("PieDataByBU", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], level = (string)ViewData["LEVEL"] }) %><% break; case 3: %><% =Url.Action("PieDataByApp", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], buId = (short)ViewData["BUID"] }) %><% break; } %>',
+                method: 'GET',
+                dataType: 'script',
+                success: onDataReceived
+            });
+        }
+        reloadData();
+        setInterval(reloadData, <%= Twilight.Common.Constants.MBConfig.MONITOR_LIVE_AUTOREFRESH_INTERVAL %>);
+    });
+    
+    //get width of broswer
+    function getBrowserWidth() {
+        if ($.browser.msie) {
+            return document.compatMode == "CSS1Compat" ? document.documentElement.clientWidth :
+                     document.body.clientWidth;
+        } else {
+            return self.innerWidth;
+        }
+    }     
+</script>
+

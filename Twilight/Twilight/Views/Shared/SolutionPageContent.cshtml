@@ -1,0 +1,39 @@
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IPagedList<Twilight.Dao.KnowledgeBase_SearchResult>>" %>
+<%@ Import Namespace=" Twilight.Common.Helper" %>
+   
+    <% 
+        if (Model == null)
+        {
+            Response.Write("<div align=\"center\">No Data.</div>");
+        }
+        else
+        {
+            foreach (var item in Model)
+            { %>
+        <div class="KM-Search">
+            <div>
+                <%= Html.Encode(item.Title)%>
+            </div>
+            <div>
+                <%= Html.Encode(item.Description)%>
+            </div>
+            <div>
+                <%= Html.ActionLink( "Solution", "Browse", new { id = item.KnowledgebaseID }) %>
+            </div>      
+            <div>
+                <span>Created:</span> <%= item.DateCreated %> <span>Comments:</span> <%= item.Comments %> <span>Suggestions:</span> <%= item.Recommend %>
+            </div>        
+            <hr id="ht">                         
+       </div>
+    <% }
+   }      
+ %>
+  <div id="pager" class="pager">
+  <% 
+    if (Model != null) 
+    { 
+      int currentPage = ViewData["CurrentPage"] == null ? 0 : int.Parse(ViewData["CurrentPage"].ToString());
+      Response.Write(Html.MvcSimplePostPager(currentPage, Model.PageSize, Model.TotalItemCount, true));
+    }
+  %>
+  </div>
