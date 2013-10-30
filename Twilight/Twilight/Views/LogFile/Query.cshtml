@@ -1,12 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IPagedList<ServerBUMappingModel>>" %>
-
-<%@ Import Namespace=" Twilight.Common.Helper" %>
-<%@ Import Namespace="Twilight.Models" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Browse physical lof file
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+﻿@using Twilight.Common.Helper
+@using Twilight.Common.Paging
+@using Twilight.Models
+@model IPagedList<ServerBUMappingModel>
+@{
+    ViewBag.Title = "Browse physical lof file";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
     <script type="text/javascript">
         $(document).ready(function() {
             PageContent_Init();
@@ -29,7 +28,7 @@
         }
         function GoToPage(page) {
             $.ajax({
-                url: '<%= Url.Action("ServerBUMappingPageContent", "LogFile") %>',
+                url: '@Url.Action("ServerBUMappingPageContent", "LogFile") ',
                 data: { page: page, keyword: $("#keyword").val()
                 },
                 type: 'post',
@@ -44,7 +43,7 @@
         }
         function search() {
             $.ajax({
-                url: '<%= Url.Action("ServerBUMappingPageContent", "ServerBUMapping") %>',
+                url: '@Url.Action("ServerBUMappingPageContent", "ServerBUMapping") ',
                 data: { keyword: $("#keyword").val()
                 },
                 type: 'post',
@@ -60,7 +59,7 @@
         function Delete(ID) {
             if (confirm('Do you realy want to delete?')) {
                 $.ajax({
-                    url: '<%= Url.Action("Delete", "ServerBUMapping") %>',
+                    url: '@Url.Action("Delete", "ServerBUMapping") ',
                     data: { ID: ID
                     },
                     type: 'post',
@@ -81,6 +80,5 @@
     <h2>
         SERVER LIST</h2>
     <div id="PageContent">
-        <% Html.RenderAction("ServerBUMappingPageContent", "LogFile");  %>
+        @{Html.RenderAction("ServerBUMappingPageContent", "LogFile");}
     </div>
-</asp:Content>

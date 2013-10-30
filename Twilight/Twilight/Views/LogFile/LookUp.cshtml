@@ -1,9 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IList<Twilight.Controllers.FileLocation>>" %>
+﻿
+@model IList<Twilight.Controllers.FileLocation>
+@{
+    ViewBag.Title = "LookUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    LookUp
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
         Look up all log in this server</h2>
     <div id="PageContent">
@@ -19,18 +20,17 @@
                 </tr>
             </thead>
             <tbody id="FileList">
-                <% foreach (var item in Model)
-                   { %>
+                @foreach (var item in Model)
+                   { 
                 <tr>
                     <td>
-                        <%= Html.Encode(item.ServerName) %>
+                        @Html.Encode(item.ServerName) 
                     </td>
                     <td>
-                        <a href="/LogFile/Download/?serverName=<%= Html.Encode(item.ServerName) %>&fileName=<%= Html.Encode(item.FileName) %>">
-                            <%= item.FileName%></a>
+                        <a href="/LogFile/Download/?serverName=@Html.Encode(item.ServerName) &fileName=@Html.Encode(item.FileName) ">
+                            @item.FileName</a>
                     </td>
                 </tr>
-                <% } %>
+                } 
             </tbody>
     </div>
-</asp:Content>

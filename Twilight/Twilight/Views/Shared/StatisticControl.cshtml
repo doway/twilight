@@ -1,18 +1,18 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Twilight.Models.StatisticModel>" %>
+﻿@model Twilight.Models.StatisticModel
 <table border="0">
     <tr>
         <td>
-            <div id="placeholder<%= Model.ID %>" style="height: 150px">
+            <div id="placeholder@Model.ID " style="height: 150px">
             </div>
         </td>
         <td>
-            <div id="choices<%= Model.ID %>">
+            <div id="choices@Model.ID ">
             </div>
         </td>
     </tr>
     <tr>
         <td colspan="2">
-            The statistic is about the <strong>past <% =ViewData["INTERVAL"] %> hour</strong> by the BU-<strong><% =ViewData["BUNAME"] %></strong>
+            The statistic is about the <strong>past @ViewData["INTERVAL"]  hour</strong> by the BU-<strong>@ViewData["BUNAME"] </strong>
         </td>
     </tr>
 </table>
@@ -21,11 +21,11 @@
     $(function() {
     
     var divWidth = getBrowserWidth() * 0.3 + "px";
-    document.getElementById("placeholder<%= Model.ID %>").style.width = divWidth;
+    document.getElementById("placeholder@Model.ID ").style.width = divWidth;
     
-    var choiceContainer = $("#choices<%= Model.ID %>");
+    var choiceContainer = $("#choices@Model.ID ");
         var datasets = null;
-        var choiceDict = { <% switch((int)ViewData["MODE"]) { case 1: %>"debug": 1, "info": 1, "warn": 1, "error": 1, "fatal": 1<% break; case 2: %>"1":1, "2":1, "3":1<% break; }; %> }
+        var choiceDict = { @switch((int)ViewData["MODE"]) { case 1: "debug": 1, "info": 1, "warn": 1, "error": 1, "fatal": 1 break; case 2: "1":1, "2":1, "3":1 break; };  }
         function onDataReceived(series) {
             // we get all the data in one go, if we only got partial
             // data, we could merge it with what we already got
@@ -64,7 +64,7 @@
             });
 
             if (data.length > 0)
-                $.plot($("#placeholder<%= Model.ID %>"), data, <% =ViewData["CHART_OPTION"] %>);
+                $.plot($("#placeholder@Model.ID "), data, @ViewData["CHART_OPTION"] );
         }
         function reloadData() {
             $.ajax({
@@ -72,14 +72,14 @@
                 // connected to a database, but in this case we only
                 // have static example files so we need to modify the
                 // URL
-            url: '<% switch((int)ViewData["MODE"]) { case 1: %><% =Url.Action("StatisticDataByLevel", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], buId = (short)ViewData["BUID"] }) %><% break; case 2: %><% =Url.Action("StatisticDataByBU", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], level = (string)ViewData["LEVEL"] }) %><% break; } %>',
+            url: '@switch((int)ViewData["MODE"]) { case 1: @Url.Action("StatisticDataByLevel", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], buId = (short)ViewData["BUID"] }) break; case 2: @Url.Action("StatisticDataByBU", new { useDbTime = (((int)ViewData["TIMETYPE"]) == 1), pastHrs = (byte)ViewData["INTERVAL"], level = (string)ViewData["LEVEL"] }) break; } ',
                 method: 'GET',
                 dataType: 'script',
                 success: onDataReceived
             });
         }
         reloadData();
-        setInterval(reloadData, <%= Twilight.Common.Constants.MBConfig.MONITOR_LIVE_AUTOREFRESH_INTERVAL %>);
+        setInterval(reloadData, @Twilight.Common.Constants.MBConfig.MONITOR_LIVE_AUTOREFRESH_INTERVAL );
     });
     
 //get width of broswer

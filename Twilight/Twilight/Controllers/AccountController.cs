@@ -24,10 +24,6 @@ namespace Twilight.Controllers
             base.Initialize(requestContext);
         }
 
-        // **************************************
-        // URL: /Account/LogOn
-        // **************************************
-
         public ActionResult LogOn()
         {
             EntryLogging();

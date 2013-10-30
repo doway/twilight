@@ -1,26 +1,25 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<Twilight.Dao.log_QueryLogByIdResult>" %>
-
+﻿@model Twilight.Dao.log_QueryLogByIdResult
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>LogDetail</title>
-    <link href="../../Content/logdetail.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/logdetail.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <table width="100%" height="100%">
-        <tr><th>ID</th><td><%= Html.Encode(Model.ID)%></td><th>BU</th><td><%= Html.Encode(Model.BUName)%></td></tr>
-        <tr><th>APTime</th><td><%= Html.Encode(Model.AppLoggingDT)%></td><th>DBTime</th><td><%= Html.Encode(Model.DBLoggingDT)%></td></tr>
-        <tr><th>Logger</th><td><%= Html.Encode(Model.Logger)%></td><th>ErrorCode</th><td><%= Html.Encode(Model.ErrorCode)%></td></tr>
-        <tr><th>Message</th><td colspan='3'><%= Html.Encode(Model.Message)%></td></tr>
-        <tr><th>Exception</th><td colspan='3'><pre><%= Html.Encode(Model.Exception)%></pre></td></tr>
-        <tr><th>Thread</th><td><%= Html.Encode(Model.Thread)%></td><th>Application</th><td><%= Html.Encode(Model.AppName)%></td></tr>
-        <tr><th>Src</th><td colspan='3'><%= Html.Encode(Model.Src)%></td></tr>
-        <tr><th>ExKey1</th><td><%= Html.Encode(Model.ExKey1)%></td><th>ExKey2</th><td><%= Html.Encode(Model.ExKey2)%></td></tr>
-        <tr><th>ExKey3</th><td><%= Html.Encode(Model.ExKey3)%></td><th>ExKey4</th><td><%= Html.Encode(Model.ExKey4)%></td></tr>
-        <tr><th>ExKey5</th><td><%= Html.Encode(Model.ExKey5)%></td><th>ExKey6</th><td><%= Html.Encode(Model.ExKey6)%></td></tr>
-        <tr><th>ExKey7</th><td><%= Html.Encode(Model.ExKey7)%></td><th>ExKey8</th><td><%= Html.Encode(Model.ExKey8)%></td></tr>
-        <tr><th>ExKey9</th><td><%= Html.Encode(Model.ExKey9)%></td><th>ExKey10</th><td><%= Html.Encode(Model.ExKey10)%></td></tr>
+        <tr><th>ID</th><td>@Html.Encode(Model.ID)</td><th>BU</th><td>@Html.Encode(Model.BUName)</td></tr>
+        <tr><th>APTime</th><td>@Html.Encode(Model.AppLoggingDT)</td><th>DBTime</th><td>@Html.Encode(Model.DBLoggingDT)</td></tr>
+        <tr><th>Logger</th><td>@Html.Encode(Model.Logger)</td><th>ErrorCode</th><td>@Html.Encode(Model.ErrorCode)</td></tr>
+        <tr><th>Message</th><td colspan='3'>@Html.Encode(Model.Message)</td></tr>
+        <tr><th>Exception</th><td colspan='3'><pre>@Html.Encode(Model.Exception)</pre></td></tr>
+        <tr><th>Thread</th><td>@Html.Encode(Model.Thread)</td><th>Application</th><td>@Html.Encode(Model.AppName)</td></tr>
+        <tr><th>Src</th><td colspan='3'>@Html.Encode(Model.Src)</td></tr>
+        <tr><th>ExKey1</th><td>@Html.Encode(Model.ExKey1)</td><th>ExKey2</th><td>@Html.Encode(Model.ExKey2)</td></tr>
+        <tr><th>ExKey3</th><td>@Html.Encode(Model.ExKey3)</td><th>ExKey4</th><td>@Html.Encode(Model.ExKey4)</td></tr>
+        <tr><th>ExKey5</th><td>@Html.Encode(Model.ExKey5)</td><th>ExKey6</th><td>@Html.Encode(Model.ExKey6)</td></tr>
+        <tr><th>ExKey7</th><td>@Html.Encode(Model.ExKey7)</td><th>ExKey8</th><td>@Html.Encode(Model.ExKey8)</td></tr>
+        <tr><th>ExKey9</th><td>@Html.Encode(Model.ExKey9)</td><th>ExKey10</th><td>@Html.Encode(Model.ExKey10)</td></tr>
     </table>
 </body>
 </html>

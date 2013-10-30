@@ -1,7 +1,7 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IPagedList<Twilight.Dao.log_QueryLogResult>>" %>
-<%@ Import Namespace=" Twilight.Common.Helper" %>
-
-<table width="100%" id="logTable" class="logTable">
+﻿@using Twilight.Common.Paging
+@using Twilight.Common.Helper
+@model IPagedList<Twilight.Dao.log_QueryLogResult>
+    <table width="100%" id="logTable" class="logTable">
     <thead>
         <tr>
             <th>ID</th>
@@ -16,52 +16,49 @@
         </tr>         
     </thead>
     <tbody id="LogBody">        
-    <% 
-        if (Model == null)
-        {
-            Response.Write("<tr><td colspan=\"6\" align=\"center\">No Data.</td></tr>");
-        }
-        else
-        {
-            foreach (var item in Model)
-            { %>
+    @if(Model == null)
+     {
+        Response.Write("<tr><td colspan=\"6\" align=\"center\">No Data.</td></tr>");
+     }
+     else
+     {
+        foreach (var item in Model)
+        { 
         <tr>      
             <td>
-                <%= Html.Encode(item.ID)%>
+                @Html.Encode(item.ID)
             </td>
             <td>
-                <%= Html.Encode(item.AppLoggingDT)%>
+                @Html.Encode(item.AppLoggingDT)
             </td>      
             <td>
-                <%= Html.Encode(item.DBLoggingDT)%>
+                @Html.Encode(item.DBLoggingDT)
             </td>                      
             <td>
-                <%= Html.Encode(item.Level)%>
+                @Html.Encode(item.Level)
             </td>            
             <td>
-                <a onclick="javascript:window.open('LogDetail/<% =item.ID %>', '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0');"><%= item.Message%></a>
+                <a onclick="javascript:window.open('LogDetail/@item.ID ', '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0');">@item.Message</a>
             </td>            
-            <td><%= Html.Encode(item.Logger)%></td>
-            <td><%= Html.Encode(item.BUName)%></td>
+            <td>@Html.Encode(item.Logger)</td>
+            <td>@Html.Encode(item.BUName)</td>
             <td>
-                <a href="/KnowLedgeBase/Search?Keyword=<%= Html.Encode(item.ErrorCode) %>"><%= Html.Encode(item.ErrorCode)%></a>
+                <a href="/KnowLedgeBase/Search?Keyword=@Html.Encode(item.ErrorCode) ">@Html.Encode(item.ErrorCode)</a>
             </td>
-            <td><a onclick="javascript:window.open('LogDetail/<% =item.ID %>', '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0');">OPEN</a>
+            <td><a onclick="javascript:window.open('LogDetail/@item.ID ', '', 'width=700,height=550,toolbar=0,menubar=0,location=0,directories=0');">OPEN</a>
             </td>
         </tr>
-    <% }
-   }      
- %>
+        }
+    }
     </tbody>
 </table>
   <div id="pager" class="pager">
-  <% 
-    if (Model != null) 
+  @if (Model != null) 
     { 
       int currentPage = ViewData["CurrentPage"] == null ? 0 : int.Parse(ViewData["CurrentPage"].ToString());
       Response.Write(Html.MvcSimplePostPager(currentPage, Model.PageSize, Model.TotalItemCount, true));
     }
-  %>
+  
   </div>
 <div id="popup" class="buglist_popup" ></div>
 <script type="text/javascript">
@@ -83,7 +80,7 @@
 
         timerId = setTimeout(function() {
             $.ajax({
-                url: '<%= Url.Action("GetLogDetail", "Log") %>',
+                url: '@Url.Action("GetLogDetail", "Log") ',
                 data: {
                     ID: _id
                 },

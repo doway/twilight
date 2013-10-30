@@ -32,11 +32,11 @@
             <div id="Div2">
                 <ul id="Ul1">              
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>   
-                    @if (Twilight.Common.Helper.SessionManager.isLogin) {
-                    <li>@Html.ActionLink("ChangePassword", "ChangePassword", "Account")</li>
+                    @if(Twilight.Common.Helper.SessionManager.isLogin) {
+                        <li>@Html.ActionLink("ChangePassword", "ChangePassword", "Account")</li>
                     }
                     <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
-                    <li>@Html.RenderPartial("LogOnUserControl")</li>
+                    <li>@{Html.RenderPartial("LogOnUserControl");}</li>
                 </ul>
             </div>
         </div>

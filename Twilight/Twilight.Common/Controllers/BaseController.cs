@@ -52,7 +52,7 @@ namespace Twilight.Common.Controllers
         /// <returns>SPI name of invocation</returns>
         protected virtual string EntryLogging()
         {
-            StackTrace trace = new StackTrace(Thread.CurrentThread, false);
+            StackTrace trace = new StackTrace(false);
             string spi_name = null;
             int frameIndex = 1;
             do

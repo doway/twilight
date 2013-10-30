@@ -1,16 +1,13 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Search
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+﻿@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
     <script type="text/javascript">
         $(document).ready(function() {
-            var isredirecttoAdd = '<%= ViewData["RereictToAdd"] %>';
+            var isredirecttoAdd = '@ViewData["RereictToAdd"] ';
             if (isredirecttoAdd == 'True') {
                 alert('No data found, auto direct to add page');
-                location.href = '<%= Url.Action("Add", "KnowledgeBase", new {Keyword= ViewData["Keyword"]} ) %>';
+                location.href = '@Url.Action("Add", "KnowledgeBase", new {Keyword= ViewData["Keyword"]} ) ';
             }
             PageContent_Init();
             if ($("#Keyword").val() != "") {
@@ -18,7 +15,6 @@
             }
         });
         function PageContent_Init() {
-            //$('#KMTable tr:odd').css('background-color', '#F5FBFC');
             PostPager();
         }
 
@@ -28,7 +24,7 @@
                 return;    
                 }
             $.ajax({
-            url: '<%= Url.Action("SolutionPageContent", "KnowledgeBase") %>',
+            url: '@Url.Action("SolutionPageContent", "KnowledgeBase") ',
                 data: { Keyword: $("#Keyword").val()
                 },
                 type: 'post',
@@ -41,9 +37,6 @@
                 }
             });        
         }
-        //================== Post方式做換頁 =========================
-        //將Pager上面的連結項目的行為分離出來
-        //使用class方式做行為判別與動作執行
         function PostPager() {
             $('.Pager').each(function(i, item) {
                 $(item).attr('href', '#');
@@ -55,7 +48,7 @@
         }
         function GoToPage(page) {
             $.ajax({
-            url: '<%= Url.Action("LogPageContent", "Log") %>',
+            url: '@Url.Action("LogPageContent", "Log") ',
                 data: { page: page, StartDateTime: $("#StartDateTime").val(),
                     EndDateTime: $("#EndDateTime").val(),
                     LEVEL: $("#LEVEL").val(),
@@ -80,7 +73,7 @@
     <legend>Solution Search</legend>
     <table>
         <tr><td>
-                <%= Html.TextBox("Keyword", ViewData["Keyword"]) %>
+                @Html.TextBox("Keyword", ViewData["Keyword"]) 
                 <div id="errcontainer">
 		           <label class="error">Please enter keyword</label>
                 </div>                    
@@ -92,6 +85,5 @@
     </table>
 </fieldset>
 <div id="PageContent">
-  <% Html.RenderAction("SolutionPageContent", "KnowledgeBase");  %>
+  @{Html.RenderAction("SolutionPageContent", "KnowledgeBase");}
 </div>
-</asp:Content>

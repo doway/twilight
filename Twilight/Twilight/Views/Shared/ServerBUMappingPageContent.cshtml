@@ -1,6 +1,7 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IPagedList<ServerBUMappingModel>>" %>
-<%@ Import Namespace=" Twilight.Common.Helper" %>
-<%@ Import Namespace="Twilight.Models" %>
+﻿@using Twilight.Common.Helper;
+@using Twilight.Common.Paging;
+@using Twilight.Models;
+@model IPagedList<ServerBUMappingModel>
 <table width="100%" id="ServerTable">
     <thead>
         <tr>
@@ -19,32 +20,30 @@
         </tr>
     </thead>
     <tbody id="ServerList">
-        <% foreach (var item in Model)
-           { %>
+        @foreach (var item in Model)
+           { 
         <tr>
             <td>
-                <a href="/LogFile/LookUp/?serverName=<%= Html.Encode(item.ServerName) %>">
-                    <%= item.ID%></a>
+                <a href="/LogFile/LookUp/?serverName=@Html.Encode(item.ServerName) ">
+                    @item.ID</a>
             </td>
             <td>
-                <%= Html.Encode(item.BUName)%>
+                @Html.Encode(item.BUName)
             </td>
             <td>
-                <%= Html.Encode(item.ServerIP)%>
+                @Html.Encode(item.ServerIP)
             </td>
             <td>
-                <%= Html.Encode(item.ServerName)%>
+                @Html.Encode(item.ServerName)
             </td>
         </tr>
-        <% } %>
+        } 
     </tbody>
 </table>
 <div id="pager" class="pager">
-    <% 
-        if (Model != null)
-        {
-            int currentPage = ViewData["CurrentPage"] == null ? 0 : int.Parse(ViewData["CurrentPage"].ToString());
-            Response.Write(Html.MvcSimplePostPager(currentPage, Model.PageSize, Model.TotalItemCount, true));
-        }
-    %>
+    @if (Model != null)
+     {
+        int currentPage = ViewData["CurrentPage"] == null ? 0 : int.Parse(ViewData["CurrentPage"].ToString());
+        Response.Write(Html.MvcSimplePostPager(currentPage, Model.PageSize, Model.TotalItemCount, true));
+     }
 </div>
