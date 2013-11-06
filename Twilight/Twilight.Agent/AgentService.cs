@@ -30,6 +30,7 @@ namespace Twilight.Agent
             XmlConfigurator.ConfigureAndWatch(new FileInfo(log4netCfgPath));
 
             string serviceXmalPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\DeployService.xamlx";
+
             WorkflowServiceHost host = new WorkflowServiceHost(XamlServices.Load(serviceXmalPath), new Uri("http://localhost:2209/Services/DeployService"));
             host.Faulted += host_Faulted;
             host.UnknownMessageReceived += host_UnknownMessageReceived;
